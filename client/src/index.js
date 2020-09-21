@@ -6,6 +6,8 @@ import './index.css';
 import App from './App';
 import HomePage from './components/HomePage';
 import QuizCategory from './components/QuizCatergory';
+import Login from './components/Login';
+
 import * as serviceWorker from './serviceWorker';
 
 
@@ -15,6 +17,7 @@ const routing = (
       <App>
         <Route exact path="/" component={HomePage} />
         <Route exact path="/quiz_categories" component={QuizCategory} />
+        <Route exact path="/login" component={Login} />
       </App>
     </Switch>
   </Router>
