@@ -1,14 +1,28 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const cors = require('cors');
 const dotenv = require('dotenv');
 dotenv.config();
 
 const app = express();
 
+// Middlewares
+app.use(morgan('dev'));
 
-app.get('/', (req, res) => {
-    res.send("Server is super high")
-})
+app.use(cors());
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
+
+
+// Routes
+app.use('/users', require('./routes/users'));
+
 
 
 // connect to database
