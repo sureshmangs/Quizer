@@ -4,6 +4,7 @@ const { ExtractJwt } = require('passport-jwt');
 const GoogleStrategy = require('passport-google-token').Strategy;
 const dotenv = require('dotenv');
 const User = require('./models/user');
+const Profile = require('./models/profile');
 
 dotenv.config();
 
@@ -48,7 +49,7 @@ passport.use('googleToken', new GoogleStrategy({
             return done(null, existingUser);
         }
 
-        console.log('creating a new user')
+        console.log('creating a new user');
         const newUser = new User({
             method: 'google',
             google: {
@@ -58,6 +59,18 @@ passport.use('googleToken', new GoogleStrategy({
         });
 
         await newUser.save();
+
+        // saving user profile data
+        const newUserProfile = new Profile({
+            userid: profile.id,
+            name: profile.name.givenName + ' ' + profile.name.familyName,
+            email: profile.emails[0].value,
+            image: profile._json.picture,
+            acc_created: new Date()
+        });
+
+        await newUserProfile.save();
+
         done(null, newUser);
     } catch (error) {
         done(error, false, error.message);
