@@ -23,6 +23,8 @@ app.use(bodyParser.json())
 // Routes
 app.use('/users', require('./routes/users'));
 
+app.use('/quiz', require('./routes/quiz'));
+
 
 
 // connect to database
